@@ -63,16 +63,23 @@ app.get('/shortened_urls', function (req, res) {
 	res.send(shortened_urls);
 });
 
-app.get('/shortened/:id', function (req, res) {
+app.get('/s/:id', function (req, res) {
 	var shorty = req.params.id;
 	var longy = lookup(shorty);
-	res.render('short_to_long_redirect', 
+	if (longy.substring(0, 4) === "http") {
+		res.render('short_to_long_redirect_w_http', 
 		{
 			long_url : longy
-		}
-	)
+		});
+	} else {
+		res.render('short_to_long_redirect_wo_http', 
+		{
+			long_url : longy
+		});
+	}
+
 	// res.send(longy);
-})
+});
 
 app.get('/:id', function (req, res) {
 	var id = req.params.id;
