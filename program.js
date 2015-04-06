@@ -51,12 +51,17 @@ function lookup(s) {
 }
 
 app.post('/long_to_short', function (req, res) {
-	var big = req.body.long_url;
-	var small = convert(big);
+	var big = req.body;
+	var small = convert(big.long_url);
 	res.render('shortened', {
-		longy : big,
+		longy : JSON.stringify(big),
 		shorty : small
 	})
+});
+
+app.post('/test', function (req, res) {
+	var big = req.body;
+	res.send(big);
 });
 
 app.get('/shortened_urls', function (req, res) {
@@ -81,6 +86,11 @@ app.get('/s/:id', function (req, res) {
 	// res.send(longy);
 });
 
+app.post('/test', function (req, res) {
+    var display = req.body;
+res.send(display);
+//res.send(req.get('Content-Type'));
+});
 app.get('/:id', function (req, res) {
 	var id = req.params.id;
 	res.render('not_found', {
@@ -89,5 +99,4 @@ app.get('/:id', function (req, res) {
 
 });
 
-app.listen(3000);
-
+app.listen(3001);
